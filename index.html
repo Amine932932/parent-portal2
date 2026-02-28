@@ -538,7 +538,8 @@
         async function fetchData() {
             try {
                 // Fetch directly from Supabase REST API
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/students_grades?student_id=eq.${studentId}&select=*`, {
+                const url = `${SUPABASE_URL}/rest/v1/students_grades?student_id=eq.${studentId}&select=*`;
+                const response = await fetch(url, {
                     headers: {
                         'apikey': SUPABASE_ANON_KEY,
                         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
@@ -547,7 +548,8 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errText}`);
                 }
 
                 const data = await response.json();
@@ -555,12 +557,12 @@
                 if (data && data.length > 0) {
                     displayData(data[0]);
                 } else {
-                    showError("غير موجود", "لم يتم العثور على التلميذ في قاعدة البيانات. قد يكون المعلم لم يرفع النقاط بعد.");
+                    showError("غير موجود", `البيانات فارغة. تم البحث عن ID: ${studentId}. هل قمت بتفعيل سياسة القراءة (RLS) في Supabase؟`);
                 }
 
             } catch (error) {
                 console.error("Fetch Error:", error);
-                showError("خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات. تأكد من توفر الإنترنت.");
+                showError("خطأ تقني", error.message);
             }
         }
 
