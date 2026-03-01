@@ -4,54 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بوابة الأولياء - كشف النقاط السريع</title>
+    <title>نقطة No9ta - كشف النقاط السريع</title>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
-            /* Primary Colors */
-            --primary: #1FA2FF;
-            /* Vibrant Blue */
-            --primary-dark: #12D8FA;
-            --secondary: #A6FFCB;
+            /* Premium Slate & Teal Palette */
+            --bg-color: #F8FAFC;
+            --surface-color: #ffffff;
+            --primary-color: #14B8A6;
+            /* Premium Teal */
+            --primary-light: #F0FDFA;
+            --text-heading: #0F172A;
+            --text-body: #334155;
+            --text-muted: #64748B;
 
-            /* Status Colors */
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
+            /* Subject Colors */
+            --taqweem-color: #008080;
+            /* Teal */
+            --fard-color: #f39c12;
+            /* Amber */
+            --ikh-color: #2980b9;
+            /* Blue */
 
-            /* Backgrounds & Surfaces */
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
+            /* Status Gradients */
+            --grad-excellent: linear-gradient(135deg, #006666, #004d40);
+            --grad-good: linear-gradient(135deg, #3b82f6, #2563eb);
+            --grad-ok: linear-gradient(135deg, #f59e0b, #d97706);
+            --grad-bad: linear-gradient(135deg, #ef4444, #dc2626);
 
-            /* Typography */
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
-
-            /* Elements */
             --border-radius: 20px;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-            --shadow-header: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --input-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
+            color: var(--text-body);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(52, 211, 153, 0.08), transparent 50%);
+            background-attachment: fixed;
         }
 
         /* ---------------- Loading Overlay ---------------- */
@@ -61,22 +70,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-color);
+            background: rgba(243, 246, 250, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.4s ease, visibility 0.4s;
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(31, 162, 255, 0.2);
-            border-top-color: var(--primary);
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            border: 4px solid var(--primary-light);
+            border-top-color: var(--primary-color);
+            animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85);
             margin-bottom: 20px;
         }
 
@@ -87,333 +97,664 @@
         }
 
         .loading-text {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            font-weight: 600;
-            animation: pulse 1.5s infinite;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            animation: pulseText 1.5s infinite ease-in-out;
         }
 
-        @keyframes pulse {
-            0% {
+        @keyframes pulseText {
+
+            0%,
+            100% {
                 opacity: 0.6;
             }
 
             50% {
                 opacity: 1;
             }
-
-            100% {
-                opacity: 0.6;
-            }
         }
 
         /* ---------------- Header ---------------- */
         .app-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 30px 20px 40px;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            box-shadow: var(--shadow-header);
-            position: relative;
-            overflow: hidden;
+            padding: 35px 20px 20px;
             text-align: center;
+            margin-bottom: 10px;
         }
 
-        .app-header::after {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+        .header-title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
-        .app-header::before {
-            content: '';
-            position: absolute;
-            bottom: -80px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
+        .icon-hat {
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .header-logo {
+            max-height: 100px;
+            max-width: 300px;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            margin-bottom: 5px;
         }
 
         .header-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: 0.5px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            letter-spacing: -0.5px;
         }
 
         .header-subtitle {
-            font-size: 0.95rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: var(--surface-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: var(--input-shadow);
         }
 
         /* ---------------- Main Container ---------------- */
         .container {
             flex-grow: 1;
             padding: 0 20px 30px;
-            margin-top: -30px;
-            position: relative;
-            z-index: 10;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* ---------------- Error Card ---------------- */
         .error-card {
-            background: var(--card-bg);
+            background: var(--surface-color);
             border-radius: var(--border-radius);
             padding: 30px 20px;
             text-align: center;
-            box-shadow: var(--shadow);
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(239, 68, 68, 0.2);
             display: none;
-            border-top: 5px solid var(--danger);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .error-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 15px;
         }
 
         .error-title {
-            color: var(--danger);
+            color: var(--text-heading);
             font-weight: 800;
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
         }
 
         .error-msg {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            color: var(--text-body);
+            font-size: 1rem;
             line-height: 1.6;
+            background: #fef2f2;
+            padding: 15px;
+            border-radius: 12px;
+            color: #b91c1c;
         }
 
-        /* ---------------- Student Info Card ---------------- */
-        .student-card {
-            background: var(--card-bg);
+        /* ---------------- Student Identity Profile ---------------- */
+        .student-profile {
+            background: var(--surface-color);
             border-radius: var(--border-radius);
-            padding: 25px 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .student-header {
+            padding: 30px 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
             display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-left: 15px;
-            flex-shrink: 0;
-            font-weight: 800;
+            text-align: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        .student-names {
-            flex-grow: 1;
+        .student-info {
+            width: 100%;
         }
 
         .student-name {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 4px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            line-height: 1.3;
         }
 
         .student-class {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--primary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0369a1;
             background: #e0f2fe;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
             display: inline-block;
         }
 
-        /* ---------------- Grades Section ---------------- */
-        .grades-grid {
+        /* ---------------- Trimester Tabs ---------------- */
+        .trimester-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .trim-tab {
+            background: var(--surface-color);
+            color: var(--text-muted);
+            border: 2px solid transparent;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            flex: 1;
+            text-align: center;
+        }
+
+        .trim-tab.active {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* ---------------- Marks Detail Cards ---------------- */
+        .marks-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .grade-box {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 15px;
-            border: 1px solid #f1f5f9;
-            transition: transform 0.2s;
+        .mark-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .grade-box:active {
-            transform: scale(0.97);
+        .mark-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
         }
 
-        .grade-label {
-            font-size: 0.85rem;
+        .mark-card.taqweem::before {
+            background-color: var(--taqweem-color);
+        }
+
+        .mark-card.fard::before {
+            background-color: var(--fard-color);
+        }
+
+        .mark-card.ikhtibar::before {
+            background-color: var(--ikh-color);
+        }
+
+        .mark-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .mark-title {
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 8px;
+        }
+
+        .mark-icon {
+            font-size: 1.2rem;
+            background: var(--bg-color);
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mark-score-wrapper {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .mark-score {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            line-height: 1;
+        }
+
+        .mark-base {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Exam Card spanned full width */
+        .mark-card.ikhtibar {
+            grid-column: span 2;
+            flex-direction: row;
             align-items: center;
         }
 
-        .grade-label i {
-            margin-left: 6px;
-            font-size: 1.1rem;
+        .mark-card.ikhtibar .mark-header {
+            margin-bottom: 0;
+            gap: 15px;
         }
 
-        .grade-value {
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: var(--text-main);
+        /* ---------------- Final Average Card ---------------- */
+        .average-container {
+            background: var(--surface-color);
+            border-radius: 24px;
+            padding: 8px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
         }
 
-        .grade-out-of {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-right: 2px;
-        }
-
-        /* ---------------- Final Average Highlight ---------------- */
         .average-card {
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            border-radius: var(--border-radius);
-            padding: 22px;
-            color: white;
+            border-radius: 20px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3);
-            margin-bottom: 20px;
+            color: white;
             position: relative;
             overflow: hidden;
+            background: var(--grad-ok);
+            /* Default */
+            transition: all 0.5s ease;
         }
 
-        .avg-label {
-            font-size: 1.1rem;
-            font-weight: 700;
-            opacity: 0.9;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .avg-value {
-            font-size: 3.2rem;
-            font-weight: 800;
-            line-height: 1;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .avg-out-of {
-            font-size: 1.4rem;
-            opacity: 0.8;
-            font-weight: 600;
-        }
-
-        .avg-observation {
-            margin-top: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 30px;
-            display: inline-block;
-            font-weight: 700;
-            font-size: 1.05rem;
-            backdrop-filter: blur(5px);
-        }
-
-        /* Status Colors for Average Card */
+        /* Dynamic Classes */
         .avg-excellent {
-            background: linear-gradient(135deg, #10B981, #059669);
-            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3);
+            background: var(--grad-excellent);
         }
 
         .avg-good {
-            background: linear-gradient(135deg, #3B82F6, #2563EB);
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.3);
+            background: var(--grad-good);
         }
 
         .avg-ok {
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.3);
+            background: var(--grad-ok);
         }
 
         .avg-bad {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.3);
+            background: var(--grad-bad);
         }
 
-        /* ---------------- Details List ---------------- */
-        .details-list {
-            margin-top: 10px;
+        /* Glass Decoration inside Average Card */
+        .average-card::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -20px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        .detail-row {
+        .avg-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .avg-score {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 5px;
+            direction: ltr;
+            /* keep numbers readable */
+        }
+
+        .avg-score .base {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            text-shadow: none;
+        }
+
+        .avg-observation {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 10px 25px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 800;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ---------------- Encouraging Message & Rank ---------------- */
+        .smart-message {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .smart-message p {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.5;
+        }
+
+        .rank-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* ---------------- Extra Info ---------------- */
+        .extra-info {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px dashed #e2e8f0;
+            align-items: center;
+            padding: 12px 5px;
         }
 
-        .detail-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+        .info-row:not(:last-child) {
+            border-bottom: 1px dashed #cbd5e1;
         }
 
-        .detail-label {
+        .info-label {
             color: var(--text-muted);
             font-weight: 600;
             font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .detail-val {
-            color: var(--text-main);
+        .info-value {
+            color: var(--text-heading);
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         /* ---------------- Footer ---------------- */
         .footer {
             text-align: center;
             padding: 20px;
-            color: var(--text-light);
-            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
             font-weight: 600;
             margin-top: auto;
+        }
+
+        .footer span {
+            color: var(--primary-color);
+            font-weight: 800;
+        }
+
+        /* Animation class to wrap elements */
+        .animate-up {
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes slideUpFade {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------------- Teacher Mode ---------------- */
+        .edit-input {
+            width: 80px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            padding: 2px;
+            direction: ltr;
+            /* Important for numbers */
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border-style: solid;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+        }
+
+        .edit-input-obs {
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-heading);
+        }
+
+        .save-container {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-save {
+            background: var(--grad-excellent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-save:active {
+            transform: scale(0.95);
+        }
+
+        .btn-save:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* ---------------- Login Modal ---------------- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .login-modal {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 35px 25px;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .login-modal h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            margin-bottom: 5px;
+        }
+
+        .login-modal p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 12px;
+            direction: ltr;
+            transition: border-color 0.2s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+        }
+
+        .btn-login {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-cancel-login {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            display: block;
+            width: 100%;
+        }
+
+        .login-error {
+            color: #ef4444;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 10px;
+            min-height: 20px;
         }
     </style>
 </head>
@@ -423,13 +764,16 @@
     <!-- Loading Screen -->
     <div id="loader">
         <div class="spinner"></div>
-        <div class="loading-text">جاري جلب النقاط...</div>
+        <div class="loading-text">جاري إحضار النقاط...</div>
     </div>
 
     <!-- Header -->
     <header class="app-header">
-        <div class="header-title">بوابة الأولياء 🎓</div>
-        <div class="header-subtitle">الاطلاع الرقمي على نتائج التلميذ</div>
+        <div class="header-title-wrapper">
+            <img src="logo.png" alt="نقطة No9ta" class="header-logo"
+                onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=No9ta';">
+        </div>
+        <div class="header-subtitle">الاطلاع الرقمي والفوري لنتائج التلميذ في مادة علوم الطبيعة والحياة </div>
     </header>
 
     <main class="container">
@@ -437,85 +781,153 @@
         <!-- Error Card -->
         <div id="errorCard" class="error-card">
             <div class="error-icon">😿</div>
-            <div id="errorTitle" class="error-title">تعذر الوصول</div>
-            <div id="errorMsg" class="error-msg">البيانات غير متوفرة. الرجاء مسح رمز الاستجابة السريعة (QR Code) الصحيح
-                الخاص بالتلميذ.</div>
+            <div id="errorTitle" class="error-title">عذراً، تعذر الوصول</div>
+            <div id="errorMsg" class="error-msg">البيانات غير متوفرة. الرجاء التأكد من مسح الرمز المربع (QR) الصحيح.
+            </div>
         </div>
 
-        <!-- Student Data Card -->
+        <!-- Student Data Wrapper -->
         <div id="studentData" style="display: none;">
 
-            <div class="student-card">
-                <div class="student-header">
-                    <div class="avatar" id="txtAvatar">A</div>
-                    <div class="student-names">
-                        <div class="student-name" id="txtName">الاسم واللقب</div>
-                        <div class="student-class" id="txtClass">القسم غير محدد</div>
-                    </div>
-                </div>
-
-                <div class="grades-grid">
-                    <div class="grade-box">
-                        <div class="grade-label">📗 التقويم المستمر</div>
-                        <div class="grade-value"><span id="txtTaqweem">—</span><span class="grade-out-of">/20</span>
-                        </div>
-                    </div>
-                    <div class="grade-box">
-                        <div class="grade-label">📘 الفرض</div>
-                        <div class="grade-value"><span id="txtFard">—</span><span class="grade-out-of">/20</span></div>
-                    </div>
-                </div>
-
-                <div class="grade-box" style="margin-bottom: 20px;">
-                    <div class="grade-label">📙 الاختبار</div>
-                    <div class="grade-value"><span id="txtIkhtibar">—</span><span class="grade-out-of">/20</span></div>
-                </div>
-
-                <!-- Final Average -->
-                <div id="avgCard" class="average-card">
-                    <div class="avg-label">المعدل النهائي (المادة)</div>
-                    <div class="avg-value">
-                        <span id="txtAverage">—</span><span class="avg-out-of">/20</span>
-                    </div>
-                    <div class="avg-observation" id="txtObservation">--</div>
-                </div>
-
-                <!-- Extra Details -->
-                <div class="details-list">
-                    <div class="detail-row">
-                        <span class="detail-label">رقم التعريف:</span>
-                        <span class="detail-val" id="txtMatricule">—</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">تاريخ الميلاد:</span>
-                        <span class="detail-val" id="txtDOB">—</span>
-                    </div>
+            <!-- Identity Section -->
+            <div class="student-profile animate-up">
+                <div class="student-info">
+                    <div class="student-name" id="txtName">الاسم واللقب</div>
+                    <div class="student-class" id="txtClass">القسم غير محدد</div>
                 </div>
             </div>
+
+            <!-- Trimester Selection Tabs -->
+            <div class="trimester-tabs animate-up delay-1">
+                <button id="tabTrim1" class="trim-tab active" onclick="selectTrimester(1)">الفصل الأول</button>
+                <button id="tabTrim2" class="trim-tab" onclick="selectTrimester(2)">الفصل الثاني</button>
+                <button id="tabTrim3" class="trim-tab" onclick="selectTrimester(3)">الفصل الثالث</button>
+            </div>
+
+            <div id="trimError" class="error-msg animate-up delay-1"
+                style="display: none; text-align:center; margin-bottom: 25px;">لا توجد نقاط مرصودة لهذا التلميذ في هذا
+                الفصل.</div>
+
+            <div id="marksSection">
+                <!-- Smart Message & Rank -->
+                <div class="smart-message animate-up delay-1" id="smartMessageContainer" style="display: none;">
+                    <div class="rank-badge" id="txtRank" style="display: none;">🏆 الترتيب: <span>-</span></div>
+                    <p id="txtSmartMsg">جاري تحليل النتائج...</p>
+                </div>
+
+                <!-- Subject Average -->
+                <div class="average-container animate-up delay-1">
+                    <div id="avgCard" class="average-card">
+                        <div class="avg-title">المعدل الفصلي للمادة</div>
+                        <div class="avg-score">
+                            <span id="txtAverage">—</span> <span class="base">/ 20</span>
+                        </div>
+                        <div class="avg-observation" id="txtObservation">--</div>
+                    </div>
+                </div>
+
+                <!-- Marks Details -->
+                <div class="marks-grid animate-up delay-2">
+                    <!-- Taqweem -->
+                    <div class="mark-card taqweem">
+                        <div class="mark-header">
+                            <span class="mark-title">التقويم المستمر</span>
+                            <div class="mark-icon">📝</div>
+                        </div>
+                        <div class="mark-score-wrapper">
+                            <span class="mark-score" id="txtTaqweem">—</span>
+                            <span class="mark-base">/ 20</span>
+                        </div>
+                    </div>
+
+                    <!-- Fard -->
+                    <div class="mark-card fard">
+                        <div class="mark-header">
+                            <span class="mark-title">الفرض المحروس</span>
+                            <div class="mark-icon">📋</div>
+                        </div>
+                        <div class="mark-score-wrapper">
+                            <span class="mark-score" id="txtFard">—</span>
+                            <span class="mark-base">/ 20</span>
+                        </div>
+                    </div>
+
+                    <!-- Ikhtibar -->
+                    <div class="mark-card ikhtibar">
+                        <div class="mark-header">
+                            <div class="mark-icon">📑</div>
+                            <span class="mark-title">الاختبار الفصلي</span>
+                        </div>
+                        <div class="mark-score-wrapper">
+                            <span class="mark-score" id="txtIkhtibar">—</span>
+                            <span class="mark-base">/ 20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extra Info -->
+                <div class="extra-info animate-up delay-3">
+                    <div class="info-row">
+                        <div class="info-label"><span>🔢</span> رقم التعريف</div>
+                        <div class="info-value" id="txtMatricule">—</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><span>📅</span> تاريخ الميلاد</div>
+                        <div class="info-value" id="txtDOB">—</div>
+                    </div>
+                </div>
+
+                <!-- Teacher Mode Save Button -->
+                <div id="saveBtnContainer" class="save-container animate-up delay-3" style="display: none;">
+                    <button class="btn-save" onclick="saveGradesToCloud()">💾 حفظ التعديلات</button>
+                    <div id="saveStatus" style="margin-right: 15px; font-weight: bold;"></div>
+                </div>
+
+            </div> <!-- End marksSection -->
 
         </div>
 
     </main>
 
     <footer class="footer">
-        تم الإنشاء بواسطة Smart Grade
+        <div style="margin-bottom: 5px;">تطبيق <b>نقطة No9ta</b> ⚡ نسخة 2026 <span
+                style="cursor:pointer; user-select:none;" onclick="toggleTeacherMode()">🔒</span></div>
+        <div style="font-size: 0.85rem; opacity: 0.8;">المطور: أستاذ تعليم متوسط أمين سويدي</div>
+        <div style="font-size: 0.8rem; margin-top: 5px;">aminesouidi2@gmail.com</div>
     </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-modal">
+            <h2>🔐 وضع الأستاذ</h2>
+            <p>أدخل بيانات حسابك في Supabase للتحقق من هويتك</p>
+            <input type="email" class="login-input" id="loginEmail" placeholder="البريد الإلكتروني"
+                autocomplete="email">
+            <input type="password" class="login-input" id="loginPassword" placeholder="كلمة المرور"
+                autocomplete="current-password">
+            <button class="btn-login" id="loginBtn" onclick="doLogin()">تسجيل الدخول</button>
+            <div class="login-error" id="loginError"></div>
+            <button class="btn-cancel-login" onclick="closeLoginModal()">إلغاء</button>
+        </div>
+    </div>
 
     <script>
         // Utilities
         const $ = id => document.getElementById(id);
-
-        let sheetId = null;
         let studentId = null;
+        let currentTrimester = 1;
+        let allStudentsData = [];
+        let isTeacherMode = false;
+        let supabaseAccessToken = null; // Stores the real auth token
 
-        // Flow Control
+        // Start Execution
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            studentId = urlParams.get('studentId');
+            studentId = urlParams.get('studentId') || urlParams.get('id');
+            currentTrimester = parseInt(urlParams.get('trimester'), 10) || parseInt(urlParams.get('tri'), 10) || 1;
 
             if (!studentId) {
-                showError("رابط غير صحيح", "هذا الرابط لا يحتوي على معرف التلميذ. يرجى استخدام كاميرا هاتفك لمسح الكود المربع (QR) الخاص بالتلميذ مباشرة.");
-                console.log("Missing Params. URL:", window.location.href);
+                showError("خطأ في الرابط", "هذا الرابط لا يحتوي على معرف التلميذ. يرجى مسح كود الـ QR من التطبيق.");
                 return;
             }
             fetchData();
@@ -528,6 +940,7 @@
                 $('errorTitle').innerText = title;
                 $('errorMsg').innerText = msg;
                 $('errorCard').style.display = 'block';
+                $('studentData').style.display = 'none';
             }, 400);
         }
 
@@ -537,8 +950,8 @@
 
         async function fetchData() {
             try {
-                // Fetch directly from Supabase REST API
-                const url = `${SUPABASE_URL}/rest/v1/students_grades?student_id=eq.${studentId}&select=*`;
+                // Fetch ALL students in the same class to calculate rank
+                const url = `${SUPABASE_URL}/rest/v1/students_grades?select=*`;
                 const response = await fetch(url, {
                     headers: {
                         'apikey': SUPABASE_ANON_KEY,
@@ -552,17 +965,62 @@
                     throw new Error(`HTTP ${response.status}: ${errText}`);
                 }
 
-                const data = await response.json();
+                allStudentsData = await response.json();
 
-                if (data && data.length > 0) {
-                    displayData(data[0]);
-                } else {
-                    showError("غير موجود", `البيانات فارغة. تم البحث عن ID: ${studentId}. هل قمت بتفعيل سياسة القراءة (RLS) في Supabase؟`);
-                }
+                // Hide loader
+                $('loader').style.opacity = '0';
+                setTimeout(() => {
+                    $('loader').style.display = 'none';
+                    $('studentData').style.display = 'block';
+                    renderTrimesterData();
+                }, 800);
 
             } catch (error) {
                 console.error("Fetch Error:", error);
-                showError("خطأ تقني", error.message);
+                showError("فشل الاتصال", "تعذر الاتصال بقاعدة البيانات. تأكد من توفر شبكة الإنترنت. " + error.message);
+            }
+        }
+
+        function selectTrimester(tri) {
+            currentTrimester = tri;
+            // Update UI tabs
+            ['tabTrim1', 'tabTrim2', 'tabTrim3'].forEach((id, idx) => {
+                if (idx + 1 === tri) $(id).classList.add('active');
+                else $(id).classList.remove('active');
+            });
+            renderTrimesterData();
+        }
+
+        function renderTrimesterData() {
+            // Find target student for chosen trimester
+            const studentData = allStudentsData.find(s => (s.student_id === studentId || s.student_id == studentId) && s.trimester === currentTrimester);
+
+            if (studentData) {
+                $('trimError').style.display = 'none';
+                $('marksSection').style.display = 'block';
+
+                // Calculate Rank
+                let rank = null;
+                let totalInClass = 0;
+                if (studentData.class_name && studentData.average !== null) {
+                    const classStudents = allStudentsData.filter(s => s.class_name === studentData.class_name && s.average !== null && s.trimester === currentTrimester);
+                    totalInClass = classStudents.length;
+                    classStudents.sort((a, b) => parseFloat(b.average) - parseFloat(a.average));
+                    rank = classStudents.findIndex(s => s.student_id === studentData.student_id) + 1;
+                }
+
+                displayData(studentData, rank, totalInClass);
+            } else {
+                // If the student exists but has NO data for this trimester, show an error but keep tabs visible
+                const studentExistsAnywhere = allStudentsData.find(s => (s.student_id === studentId || s.student_id == studentId));
+                if (studentExistsAnywhere) {
+                    $('txtName').innerText = studentExistsAnywhere.name;
+                    $('txtClass').innerText = studentExistsAnywhere.class_name;
+                    $('trimError').style.display = 'block';
+                    $('marksSection').style.display = 'none';
+                } else {
+                    showError("غير موجود", `لم أجد التلميذ المرتبط بالرقم: ${studentId}. هل قمت برفع النقاط عبر البرنامج؟`);
+                }
             }
         }
 
@@ -572,58 +1030,291 @@
             return val;
         }
 
-        function displayData(studentData) {
-            // Mapping from Supabase Format
+        function displayData(studentData, rank, totalInClass) {
             const name = safeVal(studentData.name);
             const className = safeVal(studentData.class_name);
             const mat = safeVal(studentData.matricule);
             const dob = safeVal(studentData.dob);
-
             const taq = safeVal(studentData.taqweem);
             const fard = safeVal(studentData.fard);
             const ikh = safeVal(studentData.ikhtibar);
             let avg = safeVal(studentData.average);
             const obs = safeVal(studentData.observation);
 
-            // Populate UI
+            // Populate Text
             $('txtName').innerText = name;
-            $('txtClass').innerText = className !== "—" ? className : "القسم غير محدد";
-            $('txtAvatar').innerText = name.trim().charAt(0);
+            $('txtClass').innerText = className !== "—" ? className : "مجموعة غير محددة";
 
             $('txtMatricule').innerText = mat;
             $('txtDOB').innerText = dob;
 
-            $('txtTaqweem').innerText = taq;
-            $('txtFard').innerText = fard;
-            $('txtIkhtibar').innerText = ikh;
-            $('txtAverage').innerText = avg;
-            $('txtObservation').innerText = obs !== "—" ? obs : "غير مكتمل";
-
-            // Style Average Card
-            const avgCard = $('avgCard');
-            avgCard.className = 'average-card'; // reset
-
-            if (avg !== "—") {
-                const numAvg = parseFloat(avg);
-                if (numAvg >= 16) {
-                    avgCard.classList.add('avg-excellent');
-                } else if (numAvg >= 12) {
-                    avgCard.classList.add('avg-good');
-                } else if (numAvg >= 10) {
-                    avgCard.classList.add('avg-ok');
-                } else {
-                    avgCard.classList.add('avg-bad');
-                }
+            if (isTeacherMode) {
+                // Render Inputs
+                $('txtTaqweem').innerHTML = `<input type="number" class="edit-input" id="inTaqweem" value="${taq === "—" ? "" : taq}" step="0.5" min="0" max="20" oninput="recalcAvg()">`;
+                $('txtFard').innerHTML = `<input type="number" class="edit-input" id="inFard" value="${fard === "—" ? "" : fard}" step="0.5" min="0" max="20" oninput="recalcAvg()">`;
+                $('txtIkhtibar').innerHTML = `<input type="number" class="edit-input" id="inIkhtibar" value="${ikh === "—" ? "" : ikh}" step="0.5" min="0" max="20" oninput="recalcAvg()">`;
+                $('txtObservation').innerHTML = `<input type="text" class="edit-input-obs" id="inObs" value="${obs === "—" ? "" : obs}" placeholder="التقدير (مثال: ممتاز)">`;
+                $('saveBtnContainer').style.display = 'flex';
             } else {
-                $('txtAverage').innerText = "?";
+                // Render text
+                $('txtTaqweem').innerText = taq;
+                $('txtFard').innerText = fard;
+                $('txtIkhtibar').innerText = ikh;
+                $('txtObservation').innerText = obs !== "—" ? obs : "غير متوفر";
+                $('saveBtnContainer').style.display = 'none';
             }
 
-            // Hide loader, show data
-            $('loader').style.opacity = '0';
-            setTimeout(() => {
-                $('loader').style.display = 'none';
-                $('studentData').style.display = 'block';
-            }, 400);
+            const smartMsgContainer = $('smartMessageContainer');
+            const txtSmartMsg = $('txtSmartMsg');
+            const txtRank = $('txtRank');
+            const avgCard = $('avgCard');
+
+            // Gradual Display Logic: Hide average and observation until all three grades exist
+            const allGradesExist = (taq !== "—" && fard !== "—" && ikh !== "—");
+
+            if (!allGradesExist && !isTeacherMode) {
+                // Hide Average completely
+                avgCard.parentElement.style.display = 'none';
+                smartMsgContainer.style.display = 'block';
+                smartMsgContainer.style.borderRightColor = '#f59e0b';
+                txtRank.style.display = 'none';
+                txtSmartMsg.innerText = "⏳ إتمام حجز النقاط قيد الإجراء... سيظهر المعدل الفصلي النهائي بعد اكتمال رصد كافة الامتحانات (التقويم، الفرض، الاختبار).";
+            } else {
+                // Show Average
+                avgCard.parentElement.style.display = 'block';
+
+                if (isTeacherMode) {
+                    smartMsgContainer.style.display = 'none'; // hide rank and msg in teacher mode
+                    $('txtAverage').innerText = avg !== "—" ? avg : "?";
+                } else {
+                    $('txtAverage').innerText = avg;
+                    if (avg !== "—") {
+                        smartMsgContainer.style.display = 'block';
+                        const numAvg = parseFloat(avg);
+
+                        // Set Rank
+                        if (rank && rank > 0) {
+                            txtRank.style.display = 'inline-flex';
+                            if (rank <= 3) {
+                                txtRank.innerHTML = `🏆 من الأوائل! (الترتيب: ${rank} من ${totalInClass})`;
+                            } else {
+                                txtRank.innerHTML = `📊 الترتيب: ${rank} من ${totalInClass}`;
+                            }
+                        }
+
+                        // Set Message & Color
+                        avgCard.className = 'average-card'; // reset
+
+                        if (numAvg >= 16) {
+                            avgCard.classList.add('avg-excellent');
+                            smartMsgContainer.style.borderRightColor = '#10b981';
+                            txtSmartMsg.innerText = "🌟 نتائج مبهرة واستثنائية! ابنكم فخر للمدرسة، نتمنى له/لها دوام التفوق والنجاح الباهر.";
+                        } else if (numAvg >= 13) {
+                            avgCard.classList.add('avg-good');
+                            smartMsgContainer.style.borderRightColor = '#3b82f6';
+                            txtSmartMsg.innerText = "👏 نتائج جيدة جداً ومجهود يستحق الثناء. بقليل من التركيز الإضافي سيصل إلى القمة بسهولة.";
+                        } else if (numAvg >= 10) {
+                            avgCard.classList.add('avg-ok');
+                            smartMsgContainer.style.borderRightColor = '#f59e0b';
+                            txtSmartMsg.innerText = "👍 نتيجة مقبولة، لكننا نؤمن أن قدرات التلميذ أكبر من هذا بكثير. ننصح بمراجعة مستمرة للوصول للامتياز.";
+                        } else {
+                            avgCard.classList.add('avg-bad');
+                            smartMsgContainer.style.borderRightColor = '#ef4444';
+                            txtSmartMsg.innerText = "💪 هذه ليست النهاية بل نقطة انطلاق جديدة. التلميذ يحتاج إلى دعم إضافي وجدولة أفضل لأوقات المراجعة للتحسن فوراً.";
+                        }
+                    } else {
+                        $('txtAverage').innerText = "?";
+                    }
+                }
+            }
+        }
+
+        /* ---------- Teacher Mode / Auth Functions ---------- */
+        function toggleTeacherMode() {
+            if (!isTeacherMode) {
+                // Show the real login modal
+                $('loginModal').classList.add('active');
+                $('loginEmail').focus();
+                // Allow pressing Enter to submit
+                $('loginPassword').onkeydown = (e) => { if (e.key === 'Enter') doLogin(); };
+            } else {
+                if (confirm("هل تريد الخروج من وضع المعلم؟")) {
+                    isTeacherMode = false;
+                    supabaseAccessToken = null;
+                    renderTrimesterData();
+                }
+            }
+        }
+
+        function closeLoginModal() {
+            $('loginModal').classList.remove('active');
+            $('loginEmail').value = '';
+            $('loginPassword').value = '';
+            $('loginError').innerText = '';
+        }
+
+        async function doLogin() {
+            const email = $('loginEmail').value.trim();
+            const password = $('loginPassword').value;
+            const btn = $('loginBtn');
+            $('loginError').innerText = '';
+
+            if (!email || !password) {
+                $('loginError').innerText = 'يرجى إدخال البريد الإلكتروني وكلمة المرور';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = '⏳ جارٍ التحقق...';
+
+            try {
+                const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok || !data.access_token) {
+                    throw new Error(data.error_description || data.msg || 'فشل تسجيل الدخول');
+                }
+
+                supabaseAccessToken = data.access_token;
+                isTeacherMode = true;
+                closeLoginModal();
+                renderTrimesterData();
+
+            } catch (err) {
+                $('loginError').innerText = '❌ ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'تسجيل الدخول';
+            }
+        }
+
+        function getNumVal(id) {
+            const el = $(id);
+            if (!el || el.value === "") return null;
+            return parseFloat(el.value);
+        }
+
+        function recalcAvg() {
+            const t = getNumVal('inTaqweem');
+            const f = getNumVal('inFard');
+            const i = getNumVal('inIkhtibar');
+
+            let avg = "?";
+            if (t !== null && f !== null && i !== null) {
+                avg = (((t + f) / 2 + i * 2) / 3).toFixed(2);
+            } else if (t !== null && f !== null) {
+                let cc = (t + f) / 2;
+                avg = (cc).toFixed(2);
+            } else if (i !== null) {
+                avg = i.toFixed(2);
+            } else if (t !== null) {
+                avg = t.toFixed(2);
+            } else if (f !== null) {
+                avg = f.toFixed(2);
+            }
+            $('txtAverage').innerText = avg.replace(/\.00$/, '');
+        }
+
+        async function saveGradesToCloud() {
+            const taq = getNumVal('inTaqweem');
+            const fard = getNumVal('inFard');
+            const ikh = getNumVal('inIkhtibar');
+            const obs = $('inObs') ? $('inObs').value.trim() : "";
+
+            let avg = null;
+            if (taq !== null && fard !== null && ikh !== null) {
+                avg = parseFloat((((taq + fard) / 2 + ikh * 2) / 3).toFixed(2));
+            } else if (taq !== null && fard !== null) {
+                avg = parseFloat(((taq + fard) / 2).toFixed(2));
+            } else if (ikh !== null) {
+                avg = ikh;
+            } else if (taq !== null) {
+                avg = taq;
+            } else if (fard !== null) {
+                avg = fard;
+            }
+
+            const payload = {
+                taqweem: taq,
+                fard: fard,
+                ikhtibar: ikh,
+                average: avg,
+                observation: obs
+            };
+
+            const btn = document.querySelector('.btn-save');
+            const status = $('saveStatus');
+            btn.disabled = true;
+            btn.innerText = "⏳ يرجى الانتظار...";
+            status.innerText = "";
+            status.style.color = "var(--text-body)";
+
+            try {
+                const studentName = $('txtName').innerText;
+                const studentClass = $('txtClass').innerText !== "مجموعة غير محددة" ? $('txtClass').innerText : "";
+
+                const fullPayload = {
+                    student_id: studentId,
+                    trimester: currentTrimester,
+                    name: studentName,
+                    class_name: studentClass,
+                    ...payload
+                };
+
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/students_grades`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${supabaseAccessToken}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'resolution=merge-duplicates'
+                    },
+                    body: JSON.stringify([fullPayload])
+                });
+
+                if (!response.ok) {
+                    const errBody = await response.text();
+                    // If token expired, force logout
+                    if (response.status === 401) {
+                        isTeacherMode = false;
+                        supabaseAccessToken = null;
+                        throw new Error('انتهت صلاحية الجلسة. يرجى تسجيل الدخول مجدداً.');
+                    }
+                    throw new Error(errBody);
+                }
+
+                status.innerText = "✅ تم الحفظ بنجاح!";
+                status.style.color = "#10b981";
+
+                // Update local memory
+                const existingIdx = allStudentsData.findIndex(s => (s.student_id == studentId) && s.trimester === currentTrimester);
+                if (existingIdx >= 0) {
+                    allStudentsData[existingIdx] = { ...allStudentsData[existingIdx], ...fullPayload };
+                } else {
+                    allStudentsData.push(fullPayload);
+                }
+
+                setTimeout(() => {
+                    status.innerText = "";
+                }, 3000);
+
+            } catch (err) {
+                console.error("Save Error:", err);
+                status.innerText = "❌ فشل الحفظ!";
+                status.style.color = "#ef4444";
+                alert("حدث خطأ أثناء حفظ النقاط: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "💾 حفظ التعديلات";
+            }
         }
     </script>
 </body>
